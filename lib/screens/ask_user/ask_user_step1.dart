@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../widgets/input_text_widget.dart';
+import '../../widgets/card_widget.dart';
 import 'base_ask_user_screen.dart';
 
 class AskUserStep1 extends StatefulWidget {
@@ -11,12 +11,12 @@ class AskUserStep1 extends StatefulWidget {
 }
 
 class _AskUserStep1State extends State<AskUserStep1> {
-  final TextEditingController _nameController = TextEditingController();
+  String? _selectedGender; // Store the selected gender
 
-  void _nextStep() {
-    // Save data to Firebase
-    // Navigate to the next step
-    Navigator.pushNamed(context, '/ask_user_step2');
+  void _onGenderSelected(String gender) {
+    setState(() {
+      _selectedGender = gender;
+    });
   }
 
   @override
@@ -24,13 +24,43 @@ class _AskUserStep1State extends State<AskUserStep1> {
     return BaseAskUserScreen(
       currentStep: 1,
       totalSteps: 19,
-      title: "ask_user_step1_title",
-      subtitle: "ask_user_step1_subtitle",
-      content: InputTextWidget(
-        hintText: "Name",
-        controller: _nameController,
+      title: "Choisissez votre genre",
+      subtitle: "Cela sera utilisé pour calibrer votre plan personnalisé",
+      content: Column(
+        children: [
+          CardWidget(
+            title: 'Homme',
+            description: '',
+            icon: Icons.male,
+            onPressed: () => _onGenderSelected('Homme'),
+            isSelected: _selectedGender == 'Homme',
+          ),
+          const SizedBox(height: 16),
+          CardWidget(
+            title: 'Femme',
+            description: '',
+            icon: Icons.female,
+            onPressed: () => _onGenderSelected('Femme'),
+            isSelected: _selectedGender == 'Femme',
+          ),
+          const SizedBox(height: 16),
+          CardWidget(
+            title: 'Autre',
+            description: '',
+            icon: Icons.person_outline,
+            onPressed: () => _onGenderSelected('Autre'),
+            isSelected: _selectedGender == 'Autre',
+          ),
+        ],
       ),
-      onNext: _nextStep,
+      onNext: () {
+        // Proceed to the next step only if a gender is selected
+        if (_selectedGender != null) {
+          // Save the selected gender (e.g., to Firebase)
+          // Navigate to the next step
+          Navigator.pushNamed(context, '/ask_user_step2');
+        }
+      },
     );
   }
 }

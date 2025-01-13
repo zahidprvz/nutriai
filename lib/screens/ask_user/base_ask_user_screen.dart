@@ -36,7 +36,7 @@ class BaseAskUserScreen extends StatelessWidget {
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             ProgressIndicatorWidget(currentStep: currentStep, totalSteps: totalSteps),
             const SizedBox(height: 16),
@@ -45,11 +45,14 @@ class BaseAskUserScreen extends StatelessWidget {
               style: const TextStyle(fontSize: 16),
             ),
             const SizedBox(height: 16),
-            content,
-            const Spacer(),
+            Expanded(
+              child: Center( // Center the content widget
+                child: content,
+              ),
+            ),
+            const SizedBox(height: 16),
             NavigationButtons(
               onNext: onNext,
-              onBack: onBack,
             ),
           ],
         ),
