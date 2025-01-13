@@ -1,0 +1,15 @@
+{
+  "onboarding_title_1": "Welcome to Cal AI",
+  "onboarding_description_1": "Learn how to easily track your calories.",
+  "onboarding_title_2": "Food Analysis",
+  "onboarding_description_2": "Take a photo of your meals to calculate calories.",
+  "onboarding_title_3": "Goal Tracking",
+  "onboarding_description_3": "Track your progress and reach your goals.",
+  "start": "Start",
+  "home_title": "Home",
+  "welcome_message": "Welcome to the Cal AI app!",
+  "ask_user_step1_title": "What's your name?",
+  "ask_user_step1_subtitle": "Enter your name to continue.",
+  "next": "Next",
+  "previous": "Previous"
+}
