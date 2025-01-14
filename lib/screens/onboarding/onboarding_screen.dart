@@ -37,7 +37,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
         curve: Curves.easeIn,
       );
     } else {
-      Navigator.pushReplacementNamed(context, '/home');
+      Navigator.pushReplacementNamed(context, '/login');
     }
   }
 
@@ -62,12 +62,17 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                     Image.asset(onboardingData[index]["image"]!),
                     const SizedBox(height: 20),
                     Text(
-                      localization?.translate(onboardingData[index]["title"]!) ?? '',
-                      style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                      localization
+                              ?.translate(onboardingData[index]["title"]!) ??
+                          '',
+                      style: const TextStyle(
+                          fontSize: 24, fontWeight: FontWeight.bold),
                     ),
                     const SizedBox(height: 10),
                     Text(
-                      localization?.translate(onboardingData[index]["description"]!) ?? '',
+                      localization?.translate(
+                              onboardingData[index]["description"]!) ??
+                          '',
                       textAlign: TextAlign.center,
                       style: const TextStyle(fontSize: 16),
                     ),
@@ -80,10 +85,18 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
             padding: const EdgeInsets.all(16.0),
             child: ElevatedButton(
               onPressed: _nextPage,
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Theme.of(context).primaryColor,
+                padding: const EdgeInsets.symmetric(
+                    vertical: 16), // Increase vertical padding
+                minimumSize: const Size(
+                    double.infinity, 50), // Make button expand horizontally
+              ),
               child: Text(
                 _currentPage == onboardingData.length - 1
                     ? localization?.translate("start") ?? 'Start'
                     : localization?.translate("next") ?? 'Next',
+                style: const TextStyle(fontSize: 18, color: Colors.white),
               ),
             ),
           ),

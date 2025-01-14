@@ -38,7 +38,8 @@ class BaseAskUserScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            ProgressIndicatorWidget(currentStep: currentStep, totalSteps: totalSteps),
+            ProgressIndicatorWidget(
+                currentStep: currentStep, totalSteps: totalSteps),
             const SizedBox(height: 16),
             Text(
               localization?.translate(subtitle) ?? subtitle,
@@ -46,7 +47,8 @@ class BaseAskUserScreen extends StatelessWidget {
             ),
             const SizedBox(height: 16),
             Expanded(
-              child: Center( // Center the content widget
+              child: Center(
+                // Center the content widget
                 child: content,
               ),
             ),

@@ -1,15 +1,20 @@
-# Uncomment this line to define a global platform for your project
-# platform :ios, '12.0'
+# Add this line to prevent CocoaPods from modifying your Xcode project (optional but recommended)
+install! 'cocoapods', integrate_targets: false
 
-# CocoaPods analytics sends network stats synchronously affecting flutter build latency.
+# Set minimum iOS deployment target
+platform :ios, '13.0'
+
+# Disable CocoaPods analytics
 ENV['COCOAPODS_DISABLE_STATS'] = 'true'
 
+# Xcode project settings (should generally be left as is)
 project 'Runner', {
   'Debug' => :debug,
   'Profile' => :release,
   'Release' => :release,
 }
 
+# Flutter root directory helper function
 def flutter_root
   generated_xcode_build_settings_path = File.expand_path(File.join('..', 'Flutter', 'Generated.xcconfig'), __FILE__)
   unless File.exist?(generated_xcode_build_settings_path)
@@ -23,22 +28,36 @@ def flutter_root
   raise "FLUTTER_ROOT not found in #{generated_xcode_build_settings_path}. Try deleting Generated.xcconfig, then run flutter pub get"
 end
 
+# Include Flutter pod helper function
 require File.expand_path(File.join('packages', 'flutter_tools', 'bin', 'podhelper'), flutter_root)
 
+# Set up Flutter iOS pods
 flutter_ios_podfile_setup
 
+# Main Runner target
 target 'Runner' do
+  # Enable use of frameworks and modular headers
   use_frameworks!
   use_modular_headers!
 
+  # Install all Flutter iOS pods
   flutter_install_all_ios_pods File.dirname(File.realpath(__FILE__))
-  target 'RunnerTests' do
-    inherit! :search_paths
-  end
 end
 
+# Post-install hook to set build settings
 post_install do |installer|
   installer.pods_project.targets.each do |target|
+    # Apply additional Flutter iOS build settings
     flutter_additional_ios_build_settings(target)
+
+    target.build_configurations.each do |config|
+      # Set the minimum iOS deployment target
+      config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '13.0'
+
+      # Enable modular headers for specific Firebase targets (if needed)
+      if ['FirebaseFirestore-library', 'FirebaseAuth-library', 'FirebaseStorage-library'].include? target.name
+        config.build_settings['DEFINES_MODULE'] = 'YES'
+      end
+    end
   end
 end

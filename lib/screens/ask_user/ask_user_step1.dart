@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-
+import 'package:provider/provider.dart';
+import '../../app_localizations.dart';
+import '../../provider/user_provider.dart';
 import '../../widgets/card_widget.dart';
 import 'base_ask_user_screen.dart';
 
@@ -11,7 +13,7 @@ class AskUserStep1 extends StatefulWidget {
 }
 
 class _AskUserStep1State extends State<AskUserStep1> {
-  String? _selectedGender; // Store the selected gender
+  String? _selectedGender;
 
   void _onGenderSelected(String gender) {
     setState(() {
@@ -21,15 +23,19 @@ class _AskUserStep1State extends State<AskUserStep1> {
 
   @override
   Widget build(BuildContext context) {
+    var localization = AppLocalizations.of(context);
+
     return BaseAskUserScreen(
       currentStep: 1,
       totalSteps: 19,
-      title: "Choisissez votre genre",
-      subtitle: "Cela sera utilisé pour calibrer votre plan personnalisé",
+      title: localization?.translate("ask_user_step1_title") ??
+          "Choisissez votre genre",
+      subtitle: localization?.translate("ask_user_step1_subtitle") ??
+          "Cela sera utilisé pour calibrer votre plan personnalisé",
       content: Column(
         children: [
           CardWidget(
-            title: 'Homme',
+            title: localization?.translate("gender_male") ?? 'Homme',
             description: '',
             icon: Icons.male,
             onPressed: () => _onGenderSelected('Homme'),
@@ -37,7 +43,7 @@ class _AskUserStep1State extends State<AskUserStep1> {
           ),
           const SizedBox(height: 16),
           CardWidget(
-            title: 'Femme',
+            title: localization?.translate("gender_female") ?? 'Femme',
             description: '',
             icon: Icons.female,
             onPressed: () => _onGenderSelected('Femme'),
@@ -45,7 +51,7 @@ class _AskUserStep1State extends State<AskUserStep1> {
           ),
           const SizedBox(height: 16),
           CardWidget(
-            title: 'Autre',
+            title: localization?.translate("gender_other") ?? 'Autre',
             description: '',
             icon: Icons.person_outline,
             onPressed: () => _onGenderSelected('Autre'),
@@ -54,9 +60,11 @@ class _AskUserStep1State extends State<AskUserStep1> {
         ],
       ),
       onNext: () {
-        // Proceed to the next step only if a gender is selected
         if (_selectedGender != null) {
-          // Save the selected gender (e.g., to Firebase)
+          // Save the selected gender to UserProvider
+          Provider.of<UserProvider>(context, listen: false)
+              .updateUser(context, gender: _selectedGender);
+
           // Navigate to the next step
           Navigator.pushNamed(context, '/ask_user_step2');
         }

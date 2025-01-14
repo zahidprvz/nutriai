@@ -1,37 +1,37 @@
 import 'package:flutter/material.dart';
-
-import '../../widgets/input_text_widget.dart';
+import '../../app_localizations.dart';
 import 'base_ask_user_screen.dart';
 
-
-class AskUserStep4 extends StatefulWidget {
+class AskUserStep4 extends StatelessWidget {
   const AskUserStep4({Key? key}) : super(key: key);
 
   @override
-  _AskUserStep4State createState() => _AskUserStep4State();
-}
-
-class _AskUserStep4State extends State<AskUserStep4> {
-  final TextEditingController _heightController = TextEditingController();
-
-  void _nextStep() {
-    // Save data to Firebase
-    // Navigate to the next step
-    Navigator.pushNamed(context, '/ask_user_step5');
-  }
-
-  @override
   Widget build(BuildContext context) {
+    var localization = AppLocalizations.of(context);
+
     return BaseAskUserScreen(
       currentStep: 4,
       totalSteps: 19,
-      title: "ask_user_step4_title",
-      subtitle: "ask_user_step4_subtitle",
-      content: InputTextWidget(
-        hintText: "Height (cm)",
-        controller: _heightController,
+      title: localization?.translate("ask_user_step4_title") ??
+          "Nutri AI crée des résultats à long terme",
+      subtitle: "", // No subtitle for this step
+      content: Column(
+        children: [
+          Image.asset(
+            'assets/images/graph-3.png', // Replace with your actual image path
+          ),
+          const SizedBox(height: 16),
+          Text(
+            localization?.translate("ask_user_step4_description") ??
+                "Nutri AI s'appuie sur des méthodes scientifiquement prouvées pour vous aider à atteindre vos objectifs de manière durable.",
+            textAlign: TextAlign.center,
+            style: const TextStyle(fontSize: 16),
+          ),
+        ],
       ),
-      onNext: _nextStep,
+      onNext: () {
+        Navigator.pushNamed(context, '/ask_user_step5');
+      },
       onBack: () => Navigator.pop(context),
     );
   }

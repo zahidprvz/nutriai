@@ -1,45 +1,34 @@
 import 'package:flutter/material.dart';
 
-import '../../widgets/dropdown_selector_widget.dart';
+import '../../widgets/card_widget.dart';
 import 'base_ask_user_screen.dart';
 
-
-class AskUserStep3 extends StatefulWidget {
+class AskUserStep3 extends StatelessWidget {
   const AskUserStep3({Key? key}) : super(key: key);
-
-  @override
-  _AskUserStep3State createState() => _AskUserStep3State();
-}
-
-class _AskUserStep3State extends State<AskUserStep3> {
-  String? _selectedGender;
-
-  void _nextStep() {
-    // Save data to Firebase
-    // Navigate to the next step
-    Navigator.pushNamed(context, '/ask_user_step4');
-  }
 
   @override
   Widget build(BuildContext context) {
     return BaseAskUserScreen(
-      currentStep: 3,
+      currentStep: 4,
       totalSteps: 19,
-      title: "ask_user_step3_title",
-      subtitle: "ask_user_step3_subtitle",
-      content: DropdownSelectorWidget(
-        hintText: "Select Gender",
-        items: ["Male", "Female", "Other"],
-        selectedItem: _selectedGender,
-        onChanged: (value) {
-          setState(() {
-            _selectedGender = value;
-          });
-        },
+      title: "Nutri AI creates long-term results",
+      subtitle: "",
+      content: Column(
+        children: [
+          Image.asset(
+              'assets/images/graph-3.png'), // Replace with your actual image path
+          const SizedBox(height: 16),
+          const Text(
+            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+            textAlign: TextAlign.center,
+            style: TextStyle(fontSize: 16),
+          ),
+        ],
       ),
-      onNext: _nextStep,
+      onNext: () {
+        Navigator.pushNamed(context, '/ask_user_step5');
+      },
       onBack: () => Navigator.pop(context),
     );
   }
 }
-
